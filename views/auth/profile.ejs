@@ -129,6 +129,8 @@
                 <form action="/updateGeneralInfo" method="POST"  id="generalInfoForm" enctype="multipart/form-data">
                     <input type="text" disabled value="GENERAL INFO" style="background-color:lightgreen;">
                     <input name="pic" id="pic" type="file" accept="image/png, image/PNG,image/JPG,image/JPEG,image/jpg, image/jpeg">
+                    <span class="inputLabels">Username</span>
+                    <input disabled style="background-color: white;" type="text" placeholder="name.." value="<%=  generalInfo.username %>">
                     <span class="inputLabels">Name</span>
                     <input name="name" type="text" placeholder="name.." value="<%=  generalInfo.name %>">
                     <span class="inputLabels">Bio</span>

@@ -1,4 +1,56 @@
 <%- include('./partials/upper.ejs') %>
 
-<h1>home</h1>
+<style>
+    #notes{
+        display: flex;
+        height: 300px;
+        justify-content: space-around;
+    }
+    #creatorsNote{
+        width: 50%;
+        /* border: 1px dashed black; */
+        /* background-color: rgb(189, 168, 168); */
+        height: 100%;
+    }
+    #stats{
+        width: 30%;
+        border: 1px dashed black;
+        background-color: rgb(189, 168, 168);
+        height: 100%;
+        padding: 5px;
+    }
+    li{
+        text-align: left;
+    }
+    ul{
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+</style>
+<br> 
+<div style="font-family: cursive;font-size: 30px;">Welcome to <b>beSocial</b></div>
+<br>
+Create | Share | Engage | Enjoy | Socialize
+
+<br><br>
+<hr>
+<br>
+
+<div id="notes">
+
+    <div id="creatorsNote">
+
+    </div>
+    <div id="stats">
+        <h3>beSocial statistics</h3>
+        <hr>
+        <ul>
+            <li>Total registered users : <%= totalRegisteredUsers %></li>
+            <li>Total posts : <%= totalPosts %></li>
+            <li>Total likes : <%= totalLikes %></li>
+            <li>Total comments : <%= totalComments %></li>
+        </ul>
+    </div>
+</div>
+
 <%- include('./partials/lower.ejs') %>

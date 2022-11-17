@@ -7,7 +7,6 @@ body{
     height: 100vh;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     background-color: rgb(146, 194, 238);
-
 }
 
 #mainContainer{
@@ -16,16 +15,20 @@ body{
     min-height: 100vh;
     border-left: 1px solid black;
     border-right: 1px solid black;
+    display: flex;
+    flex-direction: column;
 }
 #footer{
-    width: 100%;
-    height: 50px;
+    /* width: 100%; */
+    height: 30px;
     background-color: rgb(75, 71, 71);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-
+    margin-top: auto;
+    font-weight: 100;
+    font-family: 'Courier New', Courier, monospace;
 }
 #navigationBar{
     height: 40px;

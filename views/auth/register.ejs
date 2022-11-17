@@ -2,7 +2,7 @@
 <style>
 
     #registerForm{
-        border: 1px solid black;
+        border: 1px dashed black;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -19,6 +19,14 @@
         border-radius: 5px;
         text-align: center;
     }
+
+    #submitBtn{
+        width: 100px;
+        height: 30px;
+        background-color: green;
+        color: white;
+        cursor: pointer;
+    }
 </style>
 <br><br>
     <h1>Registration Page</h1>
@@ -28,10 +36,10 @@
             username
             <input name="username" type="text">
             password    
-            <input name="password" type="text">
+            <input type="password" name="password" type="text">
             email
             <input name="email" type="text">
-            <input type="submit">
+            <input id="submitBtn" type="submit">
         </form>
     </center>
 

@@ -2,7 +2,7 @@
 <style>
 
     #loginForm{
-        border: 1px solid black;
+        border: 1px dashed black;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -13,11 +13,19 @@
         padding-bottom: 20px;
         padding-top: 10px;
         border-radius: 10px;
+
     }
     #loginForm>input{
         margin: 5px;
         border-radius: 5px;
         text-align: center;
+    }
+    #submitBtn{
+        width: 100px;
+        height: 30px;
+        background-color: green;
+        color: white;
+        cursor: pointer;
     }
 </style>
 <br><br>
@@ -28,8 +36,8 @@
             username
             <input name="username" type="text">
             password    
-            <input name="password" type="text">
-            <input type="submit">
+            <input type="password" name="password" type="text">
+            <input id="submitBtn" type="submit">
         </form>
     </center>
     <script>

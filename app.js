@@ -25,9 +25,7 @@ app.use(checkAuth)
 app.use(authRoutes)
 app.use(postRoutes)
 
-app.get('/',(req,res)=>{
-    res.render('home')
-})
+
 
 app.get('*',(req,res)=>{
     res.render('general/404')

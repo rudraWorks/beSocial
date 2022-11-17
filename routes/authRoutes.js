@@ -23,6 +23,7 @@ const upload = multer({
     }
 }) 
 
+router.get('/',authControllers.root)
 router.get('/login',authControllers.loginGet)
 router.post('/login',authControllers.loginPost)
 router.get('/register',authControllers.registerGet)

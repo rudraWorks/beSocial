@@ -12,6 +12,24 @@ let createToken = (id) =>{
 }
 
 
+module.exports.root = async (req,res) =>{
+    let allPosts = await Posts.find({})
+
+    let totalPosts = allPosts.length 
+
+    let totalLikes = 0 
+    for(let i=0;i<allPosts.length;++i)
+        totalLikes+=allPosts[i].likes.length
+
+    let totalComments = 0 
+    for(let i=0;i<allPosts.length;++i)
+        totalComments+=allPosts[i].comments.length
+
+    let totalRegisteredUsers = await Users.countDocuments()
+
+    return res.render('home',{totalPosts,totalLikes,totalComments,totalRegisteredUsers})
+}
+
 module.exports.loginGet = (req,res) =>{
     if(res.locals.isAuthenticated){
         res.locals.message="Already loggedin!";
