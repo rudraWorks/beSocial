@@ -1,0 +1,65 @@
+<%- include('../partials/upper.ejs') %>
+    <style>
+        #createPostForm{
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black;
+            width: 300px ;
+        }
+    </style>
+<br><br>
+    <h1>create post</h1>
+    <br><br>
+    <center>
+
+        <form  action="/uploadPost" method="POST" enctype="multipart/form-data" id="createPostForm">
+            <input type="file" name="postPic" id="imageInput">
+            <div id="showImage"></div>
+            <textarea style="padding:10px ;" name="caption" id="" cols="30" rows="10"></textarea>
+            <input id="submitBtn" type="submit" value="post" style="background-color: green;color:white;">
+        </form>
+                
+    </center>
+
+
+    <script>
+        document.getElementById('createPostForm').addEventListener('submit',()=>{
+            document.getElementById('submitBtn').disabled=true
+            document.getElementById('submitBtn').style.cursor="wait"
+                document.getElementById('submitBtn').style.background="lightgreen"
+        })
+        let imgInput = document.getElementById('imageInput') 
+        imgInput.addEventListener('input',()=>{
+
+                getBase64(imgInput.files[0],(val)=>{
+
+                    let imgInsertDiv = document.getElementById('showImage')
+                    imgInsertDiv.innerHTML=""
+                    let showImg = document.createElement('img')
+                    showImg.setAttribute('src',val)
+                    showImg.style.width="200px"
+                    showImg.style.height="200px"
+                    imgInsertDiv.append(showImg)
+
+            })
+        })
+    function getBase64(file,cb) {
+
+            try{
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    cb( (reader.result).toString() )
+                };
+                reader.onerror = function (error) {
+                    cb(null)
+                }
+            }
+            catch(e){
+                cb(null)
+            }
+
+    }
+    </script>
+
+<%- include('../partials/lower.ejs') %>

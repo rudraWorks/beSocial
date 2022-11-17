@@ -1,0 +1,60 @@
+<%- include('../partials/upper.ejs') %>
+<style>
+
+    #registerForm{
+        border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 20px;
+        padding-top: 10px;
+        border-radius: 10px;
+    }
+    #registerForm>input{
+        margin: 5px;
+        border-radius: 5px;
+        text-align: center;
+    }
+</style>
+<br><br>
+    <h1>Registration Page</h1>
+    <br><br>   
+    <center>
+        <form id="registerForm">
+            username
+            <input name="username" type="text">
+            password    
+            <input name="password" type="text">
+            email
+            <input name="email" type="text">
+            <input type="submit">
+        </form>
+    </center>
+
+    <script>
+        let form = document.getElementById('registerForm')
+        form.addEventListener('submit',async(e)=>{
+            e.preventDefault()
+            let username = e.target.username.value
+            let password = e.target.password.value 
+            let email = e.target.email.value 
+
+            let data = await fetch('/register',{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({username,password,email})
+            })
+            let res = await data.json()
+            if(res.success){
+                return location.href="/"
+            }
+            else {
+                alert(res.message)
+            }
+        })
+    </script>
+<%- include('../partials/lower.ejs') %>

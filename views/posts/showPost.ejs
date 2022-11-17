@@ -1,0 +1,354 @@
+<%- include('../partials/upper.ejs') %>
+<style>
+    #postDetails{
+        display: flex;
+        margin-top: 10px;
+        border: 1px solid black;
+        background-color: rgb(138, 128, 128);
+    }
+    #imageAndLikes{
+        display: flex;
+        justify-content: space-around;
+    }
+    #image{
+        width: 40%;
+    }
+    #postCaption{
+        width: 40%;
+        border: 1px solid black;
+        background-color: rgb(209, 200, 200);
+        overflow-y: scroll;
+        height: 430px;
+        text-align: left;
+        padding: 5px;
+    }
+    #details{
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        background-color: gray;
+        height: 430px;
+        overflow-y: scroll;
+    }
+    .detailsRow{
+        margin: 5px;
+        background-color: rgb(185, 182, 176);
+        height: fit-content;
+        word-break: break-all;
+        border: 1px solid white;
+    }
+    .detailsRow>span{
+        /* padding: 5px; */
+        margin: 5px;
+        font-weight: 300;
+    }
+    .detailsRow>h3{
+        font-size: 15px;
+        background-color: rgb(150, 146, 146);
+    }
+    #comments{
+        padding: 2px;
+        width: 70%;
+        background-color: rgb(134, 134, 129);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid white;
+    }
+    .individualComment{
+        border: 1px solid navy;
+        display: flex;
+        margin: 4px;
+    }
+    .commentText{
+        width: 80%;
+        text-align: left;
+        padding: 10px;
+        background-color: rgb(169, 196, 187);
+    }
+    .commentDetails{
+        background-color: rgb(194, 166, 166);
+        width: 20%;
+        font-size: 12px;
+        border-left: 1px solid navy   ;
+    }
+
+    #likes{
+        border: 1px solid white;
+        width: 30%;
+        background-color: rgb(134, 134, 129);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid white;
+        padding: 2px;
+    }
+    .loader {
+    border: 6px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 6px solid #3498db;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+    }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+<br>
+    <h1>Post Details</h1><br>
+    <div id="imageAndLikes">
+
+        <div id="image">
+            <img style="width:100%;" src="data:image/png;base64,<%= postDetails.postPic %>" alt="">
+            <% if(postDetails.likes.includes(user)) { %>
+                <form  id="dislikePostForm">
+                    <img style="cursor: pointer;" onclick="dislikePostFunction('<%= postDetails._id %>','<%= user %>',this)" width="30" height="30" src="https://codeforces.org/s/30305/images/icons/star_yellow_24.png" />
+                </form>
+            <% }else { %>
+                <form  id="likePostForm">
+                    <img style="cursor: pointer;" onclick="likePostFunction('<%= postDetails._id %>','<%= user %>',this)" width="30" height="30" src="https://codeforces.org/s/30305/images/icons/star_gray_24.png" />
+                </form>
+            <% } %>
+            <div style="display:none ;" id="loader" class="loader"></div>
+        </div>
+
+        <div id="postCaption">
+                <h3 style="text-align: center;">Post caption</h3>
+                <hr><br>
+                <span> <%= postDetails.caption %> </span>
+        </div>
+
+        <div id="details">
+
+            <div class="detailsRow">
+                <h3>Post id</h3>
+                <hr>
+                <span> <%= postDetails._id %> </span>
+            </div>
+    
+            <div class="detailsRow">
+                <h3>Post date</h3>
+                <hr>
+                <span> <%= postDetails.postDate %> </span>
+            </div>
+
+            <div class="detailsRow">
+                <h3>Post author</h3>
+                <hr>
+                <span onclick="location.href='/user?username=<%=postDetails.author%>'" style="cursor: pointer;user-select: none;"> <%= postDetails.author %> </span>
+            </div>
+
+            <div class="detailsRow">
+                <h3>Post likes</h3>
+                <hr>
+                <span> <%= postDetails.likes.length %> </span>
+            </div>
+
+
+            <div class="detailsRow">
+                <h3>Post comments</h3>
+                <hr>
+                <span> <%= postDetails.comments.length %> </span>
+            </div>
+
+
+            <% if(typeof user!='undefined' && user && user==postDetails.author)  { %>
+            <div class="detailsRow">
+                <form action="" id="<%= postDetails._id %>">
+                    <button name="submitBtn" onclick="deletePostFunction('<%=postDetails._id %>')" style="width: 50%; background-color:tomato;cursor: pointer;user-select: none;border: 1px solid black;">Delete post</button>
+                </form>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div id="postDetails">
+
+        <div id="likes">
+        <h3>Likes</h3>
+        <hr>
+        <% if(postDetails.likes.length==0) { %>
+            <span>No likes!</span>
+        <% } else {%>
+            <% for(let i=0;i<postDetails.likes.length;++i) { %>
+                <div class="detailsRow" style="cursor: pointer;user-select: none;">
+                    <span style="font-size:13px;" onclick="location.href='/user?username=<%=postDetails.likes[i]%>'"> <%= postDetails.likes[i] %> </span>
+                </div>
+            <% } %>
+        <% } %>
+        </div>
+        <div id="comments">
+            <h3>Comments</h3>
+            <div id="addComment" >
+                <form action="" id="addCommentForm" style="display: flex;flex-direction:column;">
+                    <textarea placeholder="comment.." name="commentText" id="" cols="30" rows="3" style="resize: none;padding:5px;"></textarea>
+                    <input type="submit" name="submitBtn" value="post" style="background-color: green;color:white;height:25px;cursor:pointer;">
+                </form>
+            </div>
+            <div id="showComments" style="margin-top:10px ;">
+                <% if(postDetails.comments.length==0) { %>
+                    <span>No comments!</span>
+                <% } else {%>
+                    <% for(let i=0;i<postDetails.comments.length;++i) { %> 
+                        <div class="individualComment">
+                            <div class="commentText">
+                                <h5><%= postDetails.comments[i].commentText %></h3>
+                            </div>
+                            <div class="commentDetails" style="display:flex;flex-direction: column;">
+                                <div onclick="location.href='/user?username=<%=postDetails.comments[i].author%>'" style="cursor: pointer;background:rgb(184, 175, 175);user-select: none;"><%=postDetails.comments[i].author%> </div>
+                                <hr>
+                                <div><%=postDetails.comments[i].commentDate%> </div>
+                                <% if(postDetails.comments[i].author==user) { %>
+                                    <div>
+                                        <hr>
+                                        <form action="" id="<%=postDetails.comments[i].comment_id %>" >
+                                            <input name="comment_id" type="text" value="<%=postDetails.comments[i].comment_id %>" style="display: none;">
+                                            <button name="submitBtn" onclick="deleteCommentFunction('<%=postDetails.comments[i].comment_id %>')" style="width: 50%; background-color:tomato;cursor: pointer;user-select: none;border: 1px solid black;">Delete</button>
+                                        </form>
+                                    </div>
+                                <% } %>
+                            </div>
+
+                        </div>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let addCommentForm = document.getElementById('addCommentForm')
+        addCommentForm.addEventListener('submit',async(e)=>{
+            e.preventDefault()
+
+            e.target.submitBtn.style.cursor="wait"
+            e.target.submitBtn.style.background="lightgreen"
+            e.target.submitBtn.disabled=true
+
+            let commentText = e.target.commentText.value.toString().trim()
+            if(commentText=="")  alert('comment can not be empty!')
+            else{
+                let data = await fetch('/addComment',{
+                    method:"POST",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({commentText,author:'<%=user%>',post_id:'<%= postDetails._id %>'})
+                })
+                let res = await data.json()
+                if(res.success){
+                return location.reload()
+                }
+                else{
+                    alert(res.message) 
+                }
+            }
+            e.target.submitBtn.style.cursor="pointer"
+            e.target.submitBtn.style.background="green"
+            e.target.submitBtn.disabled=false
+        })
+
+
+function deleteCommentFunction(c_id){
+        let deleteCommentForm= document.getElementById(c_id)
+        deleteCommentForm.addEventListener('submit',async(e)=>{
+            e.preventDefault()
+            e.target.submitBtn.style.cursor="wait"
+            e.target.submitBtn.style.background="lightgreen"
+            e.target.submitBtn.disabled=true
+
+            comment_id = e.target.comment_id.value.toString()
+            let data = await fetch('/deleteComment',{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({comment_id,author:'<%=user%>',post_id:'<%= postDetails._id %>'})
+            })
+            let res = await data.json()
+            if(res.success){
+               return location.reload()
+            }
+            else{
+                alert(res.message) 
+            }
+            e.target.submitBtn.style.cursor="pointer"
+            e.target.submitBtn.style.background="green"
+            e.target.submitBtn.disabled=false
+        })
+}
+
+
+function deletePostFunction(p_id){
+        let deleteCommentForm= document.getElementById(p_id)
+        deleteCommentForm.addEventListener('submit',async(e)=>{
+            e.preventDefault()
+            e.target.submitBtn.style.cursor="wait"
+            e.target.submitBtn.style.background="lightgreen"
+            e.target.submitBtn.disabled=true
+
+            let post_id = p_id
+            let data = await fetch('/deletePost',{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({post_id})
+            })
+            let res = await data.json()
+            if(res.success){
+               return location.href="/profile"
+            }
+            else{
+                alert(res.message) 
+            }
+            e.target.submitBtn.style.cursor="pointer"
+            e.target.submitBtn.style.background="green"
+            e.target.submitBtn.disabled=false
+
+        })
+}
+
+async function likePostFunction(post_id,author,img){
+            img.style.display = "none"
+            document.getElementById('loader').style.display="block"
+
+            let data = await fetch('/likePost',{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({post_id,author})
+            })
+            let res = await data.json()
+            if(res.success){
+                return location.reload()
+            }
+            else{
+                alert(res.message) 
+                img.style.display="block"
+                document.getElementById('loader').style.display="none"
+
+            }
+}
+
+async function dislikePostFunction(post_id,author,img){
+            img.style.display = "none"
+            document.getElementById('loader').style.display="block"
+            let data = await fetch('/dislikePost',{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({post_id,author})
+            })
+            let res = await data.json()
+            if(res.success){
+                return location.reload()
+            }
+            else{
+                alert(res.message) 
+                img.style.display = "block"
+                document.getElementById('loader').style.display="none"
+            }
+}
+    </script>
+<%- include('../partials/lower.ejs') %>

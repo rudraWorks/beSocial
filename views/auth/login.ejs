@@ -1,0 +1,56 @@
+<%- include('../partials/upper.ejs') %>
+<style>
+
+    #loginForm{
+        border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 20px;
+        padding-top: 10px;
+        border-radius: 10px;
+    }
+    #loginForm>input{
+        margin: 5px;
+        border-radius: 5px;
+        text-align: center;
+    }
+</style>
+<br><br>
+    <h1>Login Page</h1>
+    <br><br>   
+    <center>
+        <form id="loginForm">
+            username
+            <input name="username" type="text">
+            password    
+            <input name="password" type="text">
+            <input type="submit">
+        </form>
+    </center>
+    <script>
+        let form = document.getElementById('loginForm')
+        form.addEventListener('submit',async(e)=>{
+            e.preventDefault()
+            let username = e.target.username.value
+            let password = e.target.password.value 
+
+            let data = await fetch('/login',{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({username,password})
+            })
+            let res = await data.json()
+            if(res.success){
+                return location.href="/"
+            }
+            else {
+                alert(res.message)
+            }
+        })
+    </script>
+<%- include('../partials/lower.ejs') %>

@@ -1,0 +1,10 @@
+<%- include('../partials/upper') %>
+<br>
+
+<% if(typeof message!='undefined' && message) {%>
+    <h1><%=statusCode%> : <%= message%></h1>
+<% } else { %>
+    <h1>404 page not found</h1>
+<% } %>
+
+<%- include('../partials/lower') %>

@@ -1,0 +1,220 @@
+<%- include('../partials/upper') %>
+    <style>
+        #profilePageContainer{
+            display: grid;
+            height: 100%;
+            background-color: rgb(0, 0, 0);
+            grid-template-columns: repeat(12,1fr);
+            grid-template-rows: 2fr 2fr 2fr 2fr 2fr ;
+            grid-template-areas: "c c c c c c c c c d d d"
+                                 "c c c c c c c c c d d d"
+                                 "c c c c c c c c c d d d"
+                                 "c c c c c c c c c d d d"
+                                 "c c c c c c c c c d d d" ;
+            grid-gap: 1px;
+            justify-content: center;
+            background-color: red;
+            
+        }
+        #rightPanel{
+            grid-area:d;
+            background-color:rgb(77, 105, 105);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: scroll;
+        }   
+        #leftPanel{
+            grid-area: c;
+            background-color: rgb(233, 215, 218);
+            overflow-y:scroll ;
+        }
+        #profilePic{
+            width:150px ; height:150px; background:skyblue;margin-top: 20px;
+            border-radius: 50%;
+        }
+        #rightPanel>div{
+            margin-top: 30px;
+        }
+        #rightPanel>div>span{
+            border: 1px solid black;
+            padding: 2px;
+            background-color: yellow;
+            
+        }
+        #postsContainer{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap:5px;
+        }
+        #postsContainer>#posts{
+            margin: 10px;
+            width: 200px;
+            height: 200px;
+            background-color: rgb(139, 223, 84);
+        }
+        #profileData{
+            width: 100%;
+            /* background-color: cyan; */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center ;
+        }
+        #profileData>#generalInfoForm>input{
+            width: 90%;
+            text-align: center;
+            border-radius:5px;
+            margin: 5px;
+            padding: 2px;
+            font-size: 15px;
+        }
+        .inputLabels{
+            color: white;
+            font-weight: bolder;
+        }
+        .loader {
+            border: 6px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 6px solid #3498db;
+            width: 30px;
+            height: 30px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+            }
+
+            /* Safari */
+            @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+            }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }
+    </style>
+        <div style="font-size: 20px;display: flex;align-items: center;justify-content: center;background-color: wheat;border-bottom: 1px dashed black;">
+            <%= generalInfo.username %>
+        </div>
+    <div id="profilePageContainer">
+
+        <div id="leftPanel">
+            <div style="margin: 20px;">  
+                <% if(postsInfo.length) { %>
+                    <h1>All posts of <u><%=generalInfo.username%></u> </h1>
+                <% } else { %>
+                    <h1>No post!</h1>
+                <% } %>
+            </div>
+            <div id="postsContainer">
+                <% for(let i=0;i<postsInfo.length;++i) { %>
+                    <div onclick="location.href='/showPost?post_id=<%=postsInfo[i]._id%>'" title="<%= postsInfo[i].caption %> &#013;<%= postsInfo[i].postDate %>"  id="posts"> 
+                        <img style="width:100% ; height: 100%;" src="data:image/png;base64,<%= postsInfo[i].postPic %>"> 
+                        
+                    </div>
+
+                <% } %>
+            </div>
+        </div>
+        <div id="rightPanel">
+            <div id="profilePic">
+                <% if(generalInfo.profilePic.length>10){ %>
+                    <img style="width:100% ; height: 100%; border-radius: 50%;" src="data:image/png;base64,<%= generalInfo.profilePic%>">
+                <% } else { %>
+                    <img style="width:100% ; height: 100%;border-radius: 50%;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRabslzHRDNum4WUgHFJ6xuSwMd0WvEJhWhwQ&usqp=CAU" >
+                <% } %>
+            </div>
+    
+  
+            <div style="display: flex; flex-wrap:wrap; justify-content:center;"> <span style="margin: 3px;background-color: rgb(54, 50, 50);color: white;padding: 3px;border-radius: 5px;"><%=generalInfo.followers.length%> Followers</span>  <span style="margin: 3px;background-color: rgb(54, 50, 50);color: white;padding: 3px;border-radius: 5px;"><%=generalInfo.following.length%> Following</span>
+                <% if(typeof user!='undefined' && user)  { %>
+                    <% if(generalInfo.username != user){ %>
+                        <% if(generalInfo.followers.includes(user)) { %>
+                            <button onclick="unfollowFunction('<%=generalInfo.username%>','<%=user%>',this)" style="background-color: red; width: 100px;border-radius: 20px;cursor:pointer;">Unfollow</button>
+                        <% } else {%>
+                            <button  onclick="followFunction('<%=generalInfo.username%>','<%=user%>',this)"  style="background-color: red; width: 100px;border-radius: 20px;cursor:pointer;">Follow</button>
+                        <% } %>
+                    <% } %>
+                <% } else { %>
+                    <button onclick="followFunction('','',this)"  style="background-color: red; width: 100px;border-radius: 20px;cursor:pointer;">Follow</button>
+                <% } %>
+                
+
+            </div>
+            <div style="display:none ;" id="loader" class="loader"></div>
+
+            <div id="profileData">
+                <form id="generalInfoForm">
+                    <input type="text" disabled value="GENERAL INFO" style="background-color:lightgreen;">
+                    <span class="inputLabels">Name</span>
+                    <input disabled style="background-color:bisque ;" name="name" type="text" placeholder="name.." value="<%=  generalInfo.name %>">
+                    <span class="inputLabels">Bio</span>
+                    <input disabled style="background-color:bisque ;" name="bio" type="text" placeholder="bio.."   value="<%=  generalInfo.bio %>">
+                    <span class="inputLabels">Gender</span>
+                    <input disabled style="background-color:bisque ;" name="gender" type="text" placeholder="gender.."  value="<%=  generalInfo.gender %>">
+                    <span class="inputLabels">Country</span>
+                    <input disabled style="background-color:bisque ;" name="country" type="text" placeholder="country.."  value="<%=  generalInfo.country %>">
+                    <span class="inputLabels">Age</span>
+                    <input disabled style="background-color:bisque ;" name="age" type="text" placeholder="age.."  value="<%=  generalInfo.age %>">
+                    <span class="inputLabels">website</span>
+                    <input disabled style="background-color:bisque ;" name="website" type="text" placeholder="website.."  value="<%=  generalInfo.website %>">
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script>
+async function followFunction(whom, by,btn){
+
+    btn.style.display="none"    
+    document.getElementById('loader').style.display="block"
+
+    if('<%=user%>'!=by){
+        return alert('User auth failed!')
+    }
+    let data = await fetch('/accountFollow',{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({whom,by})
+    })
+    let res = await data.json() 
+    if(res.success){
+        location.reload()
+    }
+    else{
+        alert(res.message)
+        btn.style.display="block"    
+        document.getElementById('loader').style.display="none"
+    }
+
+}
+
+async function unfollowFunction(whom, by,btn){
+
+    btn.style.display="none"    
+    document.getElementById('loader').style.display="block"
+
+    if('<%=user%>'!=by){
+        return alert('User auth failed!')
+    }
+    let data = await fetch('/accountUnfollow',{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({whom,by})
+    })
+    let res = await data.json() 
+    if(res.success){
+        location.reload()
+    }
+    else{
+        alert(res.message)
+        btn.style.display="block"    
+        document.getElementById('loader').style.display="none"
+    }
+
+}
+</script>
+<%- include('../partials/lower') %>

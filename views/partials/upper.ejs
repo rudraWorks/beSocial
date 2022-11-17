@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1024">
+    <link rel="stylesheet" href="/main.css">
+    <title>beSocial</title>
+</head>
+<body>
+    
+
+    <center>
+        <div id="mainContainer">
+
+            <div id="navigationBar">
+
+                <span style="background-color:rgb(0, 0, 0);height:100%;display:flex;align-items:center;padding:10px;color: white;font-weight: bolder;">beSocial</span>
+                <button onclick="location.href='/'" >Home</button>
+                <form action="/user" id="searchForm">
+                    <input name="username" placeholder="search user..." type="text">
+                    <button>Search</button>
+                </form>
+
+                <% if(typeof isAuthenticated!='undefined' && isAuthenticated) { %>
+
+                    <span style="margin-left: auto;user-select: none; border: 1px solid white;color:white; padding: 5px;cursor: default;background-color: rgb(77, 70, 70); " onclick="location.href='/profile'" ><%= user %></span>
+                    <button onclick="location.href='/createPost'">Create Post</button>
+                    <button onclick="location.href='/logout'" >Logout</button>
+                    
+                <% } else {%>
+                <button onclick="location.href='/login'" style="margin-left: auto;">Login</button>
+                <button onclick="location.href='/Register'" >Register</button>
+                <% } %> 
+            </div>
+            <% if(typeof message!='undefined' && message){ %>
+                <div id="messageBar" style="background:<%= messageBackground %> ">
+                    <div id="message" style="margin-left: 40px;">
+                        <%= message %>
+                    </div>
+                    <div id="closeButton" style="margin-left:auto;width: 40px;cursor:pointer;">X</div>
+                </div>
+            <% } %>
