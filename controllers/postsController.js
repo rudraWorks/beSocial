@@ -131,7 +131,7 @@ module.exports.likePost = async (req,res) =>{
     let {post_id,author} = req.body 
     let fetchPost = await Posts.findById(post_id)
     if(!fetchPost || !res.locals.user)
-        return res.json({success:false,message:"invalid like!"})
+        return res.json({success:false,message:"Please login to like this post!"})
     let prevLikesArr = fetchPost.likes 
     prevLikesArr.unshift(author) 
     await Posts.findOneAndUpdate({_id:post_id},{likes:prevLikesArr})
@@ -142,7 +142,7 @@ module.exports.dislikePost = async (req,res) =>{
     let {post_id,author} = req.body 
     let fetchPost = await Posts.findById(post_id)
     if(!fetchPost || !res.locals.user)
-        return res.json({success:false,message:"Please login to like this post!"})
+        return res.json({success:false,message:"Please login to dislike this post!"})
     let prevLikesArr = fetchPost.likes 
     const index = prevLikesArr.indexOf(author);
     if (index > -1) { 
