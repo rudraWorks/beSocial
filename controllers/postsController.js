@@ -153,7 +153,7 @@ module.exports.dislikePost = async (req,res) =>{
 }
 
 module.exports.user = async (req,res) =>{
-    console.log(req.query)
+    // console.log(req.query)
     let accountsFetch = await Accounts.findOne({username:req.query.username})
     if(!accountsFetch){
         res.locals.message="No user found with username: "+req.query.username

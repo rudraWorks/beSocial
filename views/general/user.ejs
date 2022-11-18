@@ -129,7 +129,13 @@
             </div>
     
   
-            <div style="display: flex; flex-wrap:wrap; justify-content:center;"> <span style="margin: 3px;background-color: rgb(54, 50, 50);color: white;padding: 3px;border-radius: 5px;"><%=generalInfo.followers.length%> Followers</span>  <span style="margin: 3px;background-color: rgb(54, 50, 50);color: white;padding: 3px;border-radius: 5px;"><%=generalInfo.following.length%> Following</span>
+            <div style="display: flex; flex-wrap:wrap; justify-content:center;">
+                
+                <span onclick="promptFollowersFollowing(JSON.stringify('<%= generalInfo.followers %>'))" style="cursor:pointer;margin: 3px;background-color: rgb(54, 50, 50);color: white;padding: 3px;border-radius: 5px;"><%=generalInfo.followers.length%> Followers</span> 
+                
+                <span onclick="promptFollowersFollowing(JSON.stringify('<%= generalInfo.following %>'))"  style="cursor: pointer;margin:3px;border-radius: 5px;background-color: rgb(54, 50, 50);color: white;padding: 3px;"><%=generalInfo.following.length%> Following</span>
+
+
                 <% if(typeof user!='undefined' && user)  { %>
                     <% if(generalInfo.username != user){ %>
                         <% if(generalInfo.followers.includes(user)) { %>
@@ -218,5 +224,21 @@ async function unfollowFunction(whom, by,btn){
     }
 
 }
+
+
+function promptFollowersFollowing(obj){
+            // console.log(obj)
+            let t="";
+            for(let i=1;i<obj.length-1;++i)
+                t+=obj[i]
+            obj = t.split(',')
+            let allFollowers = obj
+            t = ""
+            for(let i=0;i<allFollowers.length;++i){
+                t+=allFollowers[i]+"\n"
+            }
+            alert(t)
+}
+
 </script>
 <%- include('../partials/lower') %>

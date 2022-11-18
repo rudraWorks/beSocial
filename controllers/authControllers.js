@@ -64,6 +64,21 @@ module.exports.registerGet = (req,res) =>{
     res.render('auth/register')
 }
 
+
+function isAlphaNumeric(str) {
+    var code, i, len;
+  
+    for (i = 0, len = str.length; i < len; i++) {
+      code = str.charCodeAt(i);
+      if (!(code > 47 && code < 58) && // numeric (0-9)
+          !(code > 64 && code < 91) && // upper alpha (A-Z)
+          !(code > 96 && code < 123)) { // lower alpha (a-z)
+        return false;
+      }
+    }
+    return true;
+};
+
 module.exports.registerPost = async (req,res) =>{
     if(res.locals.isAuthenticated){
          return res.json({success:false,message:"Already registered"})
@@ -77,6 +92,9 @@ module.exports.registerPost = async (req,res) =>{
 
     if(username=="" || password=="" || email==""){
         return res.json({success:false,message:"Input fields can't be empty!"})
+    }
+    if(!isAlphaNumeric(username)){
+        return res.json({success:false,message:"Username must be alphanumeric!"})
     }
     if(username.length<=5){
         return res.json({success:false,message:"Username length is too short, must be greater than five characters!"})
