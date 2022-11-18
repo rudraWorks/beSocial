@@ -153,12 +153,12 @@ module.exports.dislikePost = async (req,res) =>{
 }
 
 module.exports.user = async (req,res) =>{
-    // console.log(req.query)
+    console.log(req.query)
     let accountsFetch = await Accounts.findOne({username:req.query.username})
     if(!accountsFetch){
         res.locals.message="No user found with username: "+req.query.username
         res.locals.messageBackground="tomato"
-        return res.render('general/404')
+        return res.render('general/404',{statusCode:"404",message:"No user with username "+req.query.username+" exist!"})
     }
     
     let profilePic = accountsFetch.profilePic 
