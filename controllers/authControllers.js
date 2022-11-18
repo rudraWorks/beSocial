@@ -13,8 +13,7 @@ let createToken = (id) =>{
 
 
 module.exports.root = async (req,res) =>{
-    let allPosts = await Posts.find({})
-
+    let allPosts = await Posts.find({  },{comments:1,likes:1,_id:0})
     let totalPosts = allPosts.length 
 
     let totalLikes = 0 
