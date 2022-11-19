@@ -131,9 +131,9 @@
   
             <div style="display: flex; flex-wrap:wrap; justify-content:center;">
                 
-                <span onclick="promptFollowersFollowing(JSON.stringify('<%= generalInfo.followers %>'))" style="cursor:pointer;margin: 3px;background-color: rgb(54, 50, 50);color: white;padding: 3px;border-radius: 5px;"><%=generalInfo.followers.length%> Followers</span> 
+                <span onclick="promptFollowersFollowing(JSON.stringify('<%= generalInfo.followers %>'))" style="cursor:pointer;margin: 3px;background-color: rgb(54, 50, 50);color: white;padding: 3px;border-radius: 5px;user-select: none;"><%=generalInfo.followers.length%> Followers</span> 
                 
-                <span onclick="promptFollowersFollowing(JSON.stringify('<%= generalInfo.following %>'))"  style="cursor: pointer;margin:3px;border-radius: 5px;background-color: rgb(54, 50, 50);color: white;padding: 3px;"><%=generalInfo.following.length%> Following</span>
+                <span onclick="promptFollowersFollowing(JSON.stringify('<%= generalInfo.following %>'))"  style="cursor: pointer;margin:3px;border-radius: 5px;background-color: rgb(54, 50, 50);color: white;padding: 3px;user-select: none;"><%=generalInfo.following.length%> Following</span>
 
 
                 <% if(typeof user!='undefined' && user)  { %>

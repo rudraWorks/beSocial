@@ -140,11 +140,12 @@ function _arrayBufferToBase64( buffer ) {
 module.exports.profile = async (req,res) =>{
     if(!res.locals.isAuthenticated){
         res.locals.message="Please login to access this page!"
+        res.locals.messageBackground = "tomato"
         return res.render('auth/login')
     }
     let userFetch = await Accounts.findOne({username:res.locals.user})
     if(!userFetch)
-        return res.render('general/404')
+        return res.render('general/404',{statusCode:"404",message:"Invalid access"})
     let profilePic = userFetch.profilePic 
     profilePic = _arrayBufferToBase64(profilePic)
     userFetch.profilePic=profilePic
