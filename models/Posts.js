@@ -12,6 +12,10 @@ const schema = mongoose.Schema({
     comments:{
         type:Array,
         default:[]
+    },
+    postViews:{
+        type:Number,
+        default:0
     }
 })
 

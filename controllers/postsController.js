@@ -61,7 +61,7 @@ module.exports.showPost = async (req,res) =>{
     let {post_id} = req.query
     let fetchPost
     try{
-        fetchPost = await Posts.findOne({_id:post_id})
+        fetchPost = await Posts.findOne({_id:post_id},{postViews:1})
     }
     catch(e){
         return res.render('general/404')
@@ -69,10 +69,11 @@ module.exports.showPost = async (req,res) =>{
     if(!fetchPost)
         return res.render('general/404')
 
-    // console.log(fetchPost)
+    fetchPost.postViews=fetchPost.postViews+1
+
+    fetchPost = await Posts.findOneAndUpdate({_id:post_id},fetchPost,{new:true})
     fetchPost.postPic = _arrayBufferToBase64(fetchPost.postPic)
-    
-    // console.log(fetchPost)
+
     return res.render('posts/showPost',{postDetails:fetchPost})
 }
 
