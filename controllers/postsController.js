@@ -2,7 +2,11 @@ const Users = require('../models/users')
 const Posts = require('../models/Posts')
 const moment = require('moment')
 const sharp = require('sharp')
+const badWords = require('bad-words')
 const Accounts = require('../models/Accounts')
+
+
+let bad = new badWords()
 
 module.exports.createPost = (req,res) =>{
     if(!res.locals.user){
@@ -20,17 +24,22 @@ module.exports.uploadPost = async(req,res) =>{
         return res.render('auth/login')
     }
     let {caption} = req.body 
+
     let postPic 
     try{
-        postPic = await sharp(req.file.buffer).resize({width:350,  fit: sharp.fit.contain}).png().toBuffer()
+        postPic = await sharp(req.file.buffer).resize({width:300,  fit: sharp.fit.contain}).png().toBuffer()
     }
     catch(e){
         res.locals.message ="Please select an image!"
         res.locals.messageBackground = "tomato"
         return res.render('posts/createPostPage')
     }
-    // console.log(postPic)
-    // console.log(postPic)
+
+    if(bad.isProfane(caption)){
+        res.locals.message ="Profane words not allowed!"
+        res.locals.messageBackground = "tomato"
+        return res.render('posts/createPostPage')     
+    }
     let postDate = moment().format('ll')
     await Posts.create({author:res.locals.user,caption,postPic,postDate})
     return res.redirect('/profile')
@@ -38,23 +47,6 @@ module.exports.uploadPost = async(req,res) =>{
 
 function _arrayBufferToBase64( buffer ) {
     return buffer.toString('base64')
-    var binary = '';
-    var bytes = new Uint8Array( buffer );
-    var len = bytes.byteLength;
-    for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode( bytes[ i ] );
-    }
-    return btoa( binary );
-    // let res = Buffer.from(binary).toString('base64')
-    // const str1 = res
-    // let arr=[]
-    // for(let i=0;i<str1.length;++i)
-    //       arr.push(str1[i])
-    // while(arr[arr.length-1]=='!')arr.pop()
-    // let str2="";
-    // for(let i=0;i<arr.length;++i)
-    //       str2+=(arr[i])
-    // return str2
 }
 
 module.exports.showPost = async (req,res) =>{
@@ -83,6 +75,7 @@ module.exports.addComment = async (req,res) =>{
     if(!author){
         return res.json({success:false,message:"Please login to add comments!"})
     }
+   
     // console.log(post_id,author)  
     let t = await Posts.findOne({_id:post_id}) 
     if(!t){

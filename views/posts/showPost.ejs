@@ -107,14 +107,15 @@
     <div id="imageAndLikes">
 
         <div id="image">
-            <img   src="data:image/png;base64,<%= postDetails.postPic %>" alt="">
+            <img style="border: 1px solid black;
+            "  src="data:image/png;base64,<%= postDetails.postPic %>" alt="">
             <% if(postDetails.likes.includes(user)) { %>
                 <form  id="dislikePostForm">
-                    <img style="cursor: pointer;" onclick="dislikePostFunction('<%= postDetails._id %>','<%= user %>',this)" width="30" height="30" src="https://codeforces.org/s/30305/images/icons/star_yellow_24.png" />
+                    <img title="like" style="cursor: pointer;" onclick="dislikePostFunction('<%= postDetails._id %>','<%= user %>',this)" width="30" height="30" src="https://codeforces.org/s/30305/images/icons/star_yellow_24.png" />
                 </form>
             <% }else { %>
                 <form  id="likePostForm">
-                    <img style="cursor: pointer;" onclick="likePostFunction('<%= postDetails._id %>','<%= user %>',this)" width="30" height="30" src="https://codeforces.org/s/30305/images/icons/star_gray_24.png" />
+                    <img  title="like" style="cursor: pointer;" onclick="likePostFunction('<%= postDetails._id %>','<%= user %>',this)" width="30" height="30" src="https://codeforces.org/s/30305/images/icons/star_gray_24.png" />
                 </form>
             <% } %>
             <div style="display:none ;" id="loader" class="loader"></div>
@@ -185,8 +186,8 @@
             <span>No likes!</span>
         <% } else {%>
             <% for(let i=0;i<postDetails.likes.length;++i) { %>
-                <div class="detailsRow" style="cursor: pointer;user-select: none;">
-                    <span style="font-size:13px;" onclick="location.href='/user?username=<%=postDetails.likes[i]%>'"> <%= postDetails.likes[i] %> </span>
+                <div onclick="location.href='/user?username=<%=postDetails.likes[i]%>'" class="detailsRow" style="cursor: pointer;user-select: none;">
+                    <span style="font-size:13px;" > <%= postDetails.likes[i] %> </span>
                 </div>
             <% } %>
         <% } %>

@@ -51,7 +51,6 @@
             margin: 10px;
             width: 200px;
             height: 200px;
-            background-color: rgb(139, 223, 84);
         }
         #profileData{
             width: 100%;
@@ -109,7 +108,7 @@
             <div id="postsContainer">
                 <% for(let i=0;i<postsInfo.length;++i) { %>
                     <div onclick="location.href='/showPost?post_id=<%=postsInfo[i]._id%>'" title="<%= postsInfo[i].caption %> &#013;<%= postsInfo[i].postDate %>"  id="posts"> 
-                        <img style="width:100% ;cursor: pointer ;height: 100%" src="data:image/png;base64,<%= postsInfo[i].postPic %>"> 
+                        <img style="border: 0px solid black;width:100% ;cursor: pointer ;height: 100%;box-shadow: 8px 8px 6px rgb(63, 54, 54);border-radius: 15px;" src="data:image/png;base64,<%= postsInfo[i].postPic %>"> 
                     </div>
 
                 <% } %>

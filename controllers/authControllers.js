@@ -36,6 +36,7 @@ module.exports.root = async (req,res) =>{
     return res.render('home',{totalPosts,totalLikes,totalComments,totalPostViews,totalRegisteredUsers})
 }
 
+
 module.exports.loginGet = (req,res) =>{
     if(res.locals.isAuthenticated){
         res.locals.message="Already loggedin!";
