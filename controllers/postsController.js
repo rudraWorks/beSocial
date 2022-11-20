@@ -22,7 +22,7 @@ module.exports.uploadPost = async(req,res) =>{
     let {caption} = req.body 
     let postPic 
     try{
-        postPic = await sharp(req.file.buffer).resize({width:200,height:200}).png().toBuffer()
+        postPic = await sharp(req.file.buffer).resize({width:350,  fit: sharp.fit.contain}).png().toBuffer()
     }
     catch(e){
         res.locals.message ="Please select an image!"

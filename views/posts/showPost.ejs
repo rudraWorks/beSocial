@@ -107,7 +107,7 @@
     <div id="imageAndLikes">
 
         <div id="image">
-            <img style="width:100%;" src="data:image/png;base64,<%= postDetails.postPic %>" alt="">
+            <img   src="data:image/png;base64,<%= postDetails.postPic %>" alt="">
             <% if(postDetails.likes.includes(user)) { %>
                 <form  id="dislikePostForm">
                     <img style="cursor: pointer;" onclick="dislikePostFunction('<%= postDetails._id %>','<%= user %>',this)" width="30" height="30" src="https://codeforces.org/s/30305/images/icons/star_yellow_24.png" />
