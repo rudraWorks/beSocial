@@ -117,7 +117,7 @@
         <div id="rightPanel">
             <div id="profilePic">
                 <% if(generalInfo.profilePic.length>10){ %>
-                    <img style="width:100% ; height: 100%; border-radius: 50%;" src="data:image/png;base64,<%= generalInfo.profilePic%>">
+                    <img id="dp" title="change dp" onclick="document.getElementById('pic').click()"  style="width:100% ; height: 100%; border-radius: 50%;cursor: pointer;" src="data:image/png;base64,<%= generalInfo.profilePic%>">
                 <% } else { %>
                     <img style="width:100% ; height: 100%;border-radius: 50%;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRabslzHRDNum4WUgHFJ6xuSwMd0WvEJhWhwQ&usqp=CAU" >
                 <% } %>
@@ -133,7 +133,7 @@
             <div id="profileData">
                 <form action="/updateGeneralInfo" method="POST"  id="generalInfoForm" enctype="multipart/form-data">
                     <input type="text" disabled value="GENERAL INFO" style="background-color:lightgreen;">
-                    <input name="pic" id="pic" type="file" accept="image/png, image/PNG,image/JPG,image/JPEG,image/jpg, image/jpeg">
+                    <input style="display: none;" name="pic" id="pic" type="file" accept="image/png, image/PNG,image/JPG,image/JPEG,image/jpg, image/jpeg">
                     <span class="inputLabels">Username</span>
                     <input disabled style="background-color: white;" type="text" placeholder="name.." value="<%=  generalInfo.username %>">
                     <span class="inputLabels">Name</span>
@@ -175,6 +175,39 @@
                 t+=allFollowers[i]+"\n"
             }
             alert(t)
+
+        }
+
+        document.getElementById('pic').addEventListener('input',()=>{
+
+                getBase64(document.getElementById('pic').files[0],(val)=>{
+
+                    document.getElementById('dp').src = val
+                    // let imgInsertDiv = document.getElementById('showImage')
+                    // imgInsertDiv.innerHTML=""
+                    // let showImg = document.createElement('img')
+                    // showImg.setAttribute('src',val)
+                    // showImg.style.width="200px"
+                    // // showImg.style.height="200px"
+                    // imgInsertDiv.append(showImg)
+
+                })
+        })
+        function getBase64(file,cb) {
+
+            try{
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    cb( (reader.result).toString() )
+                };
+                reader.onerror = function (error) {
+                    cb(null)
+                }
+            }
+            catch(e){
+                cb(null)
+            }
 
         }
     </script>
