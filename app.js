@@ -2,18 +2,18 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const Users = require('./models/users')
-
+require('dotenv').config()
 
 const authRoutes = require('./routes/authRoutes')
 const {checkAuth} = require('./middlewares/checkAuth')
 const postRoutes = require('./routes/postsRoutes')
 
 // const DB = "mongodb://127.0.0.1:27017/smartChat"
-const DB = 'mongodb+srv://srudra754:test123@cluster0.zey6y.mongodb.net/smartChat?retryWrites=true&w=majority'
+const DB = process.env.DB
 mongoose.connect(DB,{useNewUrlParser: true,useUnifiedTopology: true,}).then(()=>{console.log("connected to db")}).catch(()=>{"error connecting"})
    
 
-const app = express()
+const app = express() 
 
 app.set('view engine','ejs')
 app.use(express.json())

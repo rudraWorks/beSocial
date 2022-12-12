@@ -8,7 +8,7 @@ const router = Router()
 const upload = multer({
     // dest:'images',
     limits:{
-        fileSize:4000000 // 1 mb 
+        fileSize:4000000 // 4 mb 
     },
     fileFilter(req,file,cb){ 
        if(  !(file.originalname.endsWith('.PNG')) && 
