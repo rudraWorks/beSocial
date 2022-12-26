@@ -119,7 +119,7 @@
                 <% if(generalInfo.profilePic.length>10){ %>
                     <img id="dp" title="change dp" onclick="document.getElementById('pic').click()"  style="width:100% ; height: 100%; border-radius: 50%;cursor: pointer;" src="data:image/png;base64,<%= generalInfo.profilePic%>">
                 <% } else { %>
-                    <img style="width:100% ; height: 100%;border-radius: 50%;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRabslzHRDNum4WUgHFJ6xuSwMd0WvEJhWhwQ&usqp=CAU" >
+                    <img id="dp" title="change dp" onclick="document.getElementById('pic').click()" style="width:100% ; height: 100%;border-radius: 50%; cursor: pointer;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRabslzHRDNum4WUgHFJ6xuSwMd0WvEJhWhwQ&usqp=CAU" >
                 <% } %>
             </div>
 

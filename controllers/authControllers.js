@@ -17,7 +17,7 @@ module.exports.root = async (req,res) =>{
  
     let allPosts = await Posts.find({  },{comments:1,likes:1,postViews:1,_id:0})
     let totalPosts = allPosts.length 
-    // console.log(allPosts)
+    // console.log(allPosts) 
     let totalLikes = 0 
     for(let i=0;i<allPosts.length;++i)
         totalLikes+=allPosts[i].likes.length
