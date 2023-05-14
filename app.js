@@ -24,7 +24,7 @@ app.use(express.static(__dirname+"/public"))
 app.use(checkAuth)
 app.use(authRoutes)
 app.use(postRoutes)
-
+ 
 
 app.get('/updates',(req,res)=>{
     res.render('general/updates')

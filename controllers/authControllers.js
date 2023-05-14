@@ -5,6 +5,7 @@ const multer = require('multer')
 const sharp = require('sharp')
 const Posts = require('../models/Posts')
 const { json } = require('express')
+const validator = require('validator')
 
 let maxAge = 1000*60*60*24*5 // 5 days 
 let createToken = (id) =>{
@@ -108,6 +109,9 @@ module.exports.registerPost = async (req,res) =>{
     }
     if(password.length<=6){
         return res.json({success:false,message:"Password length is too short, must be greater than six characters!"})
+    }
+    if(!validator.isEmail(email)){
+        return res.json({success:false,message:"Invalid email!"})
     }
     if(usernameFetch){
         if(usernameFetch.username==username){
