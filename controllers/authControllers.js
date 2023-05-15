@@ -111,8 +111,8 @@ module.exports.registerPost = async (req,res) =>{
         return res.json({success:false,message:"Password length is too short, must be greater than six characters!"})
     }
     if(!validator.isEmail(email)){
-        return res.json({success:false,message:"Invalid email!"})
-    }
+        return res.json({success:false,message:"Invalid email!"})  
+    } 
     if(usernameFetch){
         if(usernameFetch.username==username){
             return res.json({success:false,message:"This username is already occupied!"})
