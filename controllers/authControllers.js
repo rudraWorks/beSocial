@@ -161,14 +161,13 @@ module.exports.profile = async (req,res) =>{
     let profilePic = userFetch.profilePic 
     profilePic = _arrayBufferToBase64(profilePic)
     userFetch.profilePic=profilePic
-    let posts = await Posts.find({author:res.locals.user}) 
+    let posts = await Posts.find({author:res.locals.user}).sort({ _id: -1 })
     for(let i=0;i<posts.length;++i){
         posts[i].postPic = _arrayBufferToBase64(posts[i].postPic)
     }
     
     return res.render('auth/profile',{generalInfo:userFetch,postsInfo:posts})
 }
-
 
 
 
